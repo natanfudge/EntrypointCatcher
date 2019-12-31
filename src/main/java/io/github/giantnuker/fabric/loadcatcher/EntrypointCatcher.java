@@ -101,7 +101,7 @@ public class EntrypointCatcher {
 					}
 				}
 			}
-			LOGGER.info(String.format("Found %d common mods, %d client mods, and %d unidentified mods", mainToContainer.size(), clientToContainer.size(), containers.size() - mainToContainer.size() - clientToContainer.size()));
+			LOGGER.info(String.format("Found %d common entrypoints and %d client entrypoints", mainToContainer.size(), clientToContainer.size()));
 		}
 		public static void runCommonBegins() {
 			for (EntrypointHandler handler : getHandlerEntrypoints()) {
