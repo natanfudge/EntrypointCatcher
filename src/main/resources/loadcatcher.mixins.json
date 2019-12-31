@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "io.github.giantnuker.fabric.loadcatcher.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MinecraftClientMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

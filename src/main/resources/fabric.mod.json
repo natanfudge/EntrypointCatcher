@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "loadcatcher",
+  "version": "${version}",
+
+  "name": "Entrypoint Catcher",
+  "description": "A mod to allow multiple mods to wrap the modloading entrypoint... Did i say 'mod' too much?",
+  "authors": [
+    "GiantNuker"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+  "custom": {
+    "modmenu:api": true,
+    "modmenu:clientsideOnly": true
+  },
+
+  "license": "Apache 2.0",
+  "icon": "assets/loadcatcher/icon.png",
+
+  "environment": "client",
+  "mixins": [
+    "loadcatcher.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.2"
+  }
+}
