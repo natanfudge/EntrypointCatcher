@@ -1,4 +1,5 @@
 package io.github.giantnuker.fabric.loadcatcher;
 
-public class EntrypointKind {
+public enum EntrypointKind {
+    CLIENT,COMMON
 }
