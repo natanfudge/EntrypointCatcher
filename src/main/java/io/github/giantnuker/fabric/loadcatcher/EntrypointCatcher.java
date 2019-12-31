@@ -1,11 +1,14 @@
 package io.github.giantnuker.fabric.loadcatcher;
 
 
+import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.message.Message;
 import org.apache.logging.log4j.message.MessageFactory;
 import org.apache.logging.log4j.message.SimpleMessage;
+
+import java.util.List;
 
 public class EntrypointCatcher {
 	public static final Logger LOGGER = LogManager.getLogger("Entrypoint Catcher", new MessageFactory() {
@@ -40,5 +43,26 @@ public class EntrypointCatcher {
 		}
 		runner = handler;
 		prevModId = modId;
+	}
+	/**
+	 * Dont touch this
+	 */
+	public static void runEntrypointRedirection() {
+		if (runner != null) {
+			runner.run();
+		} else {
+
+		}
+	}
+	private static List<EntrypointHandler> entrypointHandlers = null;
+
+	/**
+	 * @return The entrypoint handlers
+	 */
+	public static List<EntrypointHandler> getHandlerEntrypoints() {
+		if (entrypointHandlers == null) {
+			entrypointHandlers = FabricLoader.getInstance().getEntrypoints("entrypoint_handler", EntrypointHandler.class);
+		}
+		return entrypointHandlers;
 	}
 }
