@@ -1,5 +1,6 @@
 package io.github.giantnuker.fabric.loadcatcher;
 
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.ModContainer;
 
 public interface EntrypointHandler {
@@ -24,14 +25,14 @@ public interface EntrypointHandler {
      * Called before a mod is initialized
      * @param container The mod
      */
-    void onModInitializeBegin(ModContainer container);
+    void onModInitializeBegin(ModContainer container, EnvType environment);
 
     /**
      * Called after a mod is initialized
      * @param container
      * @param throwable Any exception that may have been thrown
      */
-    void onModInitializedEnd(ModContainer container, Throwable throwable);
+    void onModInitializeEnd(ModContainer container, EnvType environment, Throwable throwable);
 
     /**
      * Called at the beginning of client mod initialization
