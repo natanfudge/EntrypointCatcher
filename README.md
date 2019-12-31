@@ -13,7 +13,7 @@ dependencies {
 ```
 You can find the version under the releases tab.
 
-### Now how do I use it???
+## Now how do I use it???
 If you want to log whats happening, inject at a certain point, check for errors, etc, you'll want to make an `EntrypointHandler`
 To mark your handler to be used, put this in your `fabric.mod.json`:
 ```json
@@ -41,7 +41,7 @@ You can implement the following methods:
 
 `onEnd` a hook for after all mods are done initializing
 
-#### What if it isn't enough?
+### What if a handler isn't enough?
 Well, theres a solution for that too, but if you find a use case for something, please make a PR. If you need to do something crazy like move the modloading completely, You'll want to redirect the handler...
 
 Be advised, doing this **WILL BREAK OTHER MODS**. Namely *Informed Load*, as it does the same thing.
@@ -61,4 +61,4 @@ However, if you *really* need to, you can:
 
 Thats it!
 
-#### I hope this has been useful
+### I hope this has been useful :D
