@@ -57,4 +57,8 @@ However, if you *really* need to, you can:
   ]
 }
 ```
-2. Calling `EntrypointCatcher.`
+2. Calling `EntrypointCatcher.redirectEntrypointHandler` with your mod name, as it is to be referenced, and an `EntrypointRunnable` that modloading will be redirected to.
+
+Thats it!
+
+#### I hope this has been useful
