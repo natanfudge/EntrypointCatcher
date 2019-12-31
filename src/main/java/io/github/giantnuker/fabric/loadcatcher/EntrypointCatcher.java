@@ -72,7 +72,7 @@ public class EntrypointCatcher {
         replacingMod = modId;
     }
 
-    private static class LoaderClientReplacement {
+    public static class LoaderClientReplacement {
 
         private static final List<EntrypointHandler> entrypointHandlers = FabricLoader.getInstance().getEntrypoints("entry_handler", EntrypointHandler.class);
 
