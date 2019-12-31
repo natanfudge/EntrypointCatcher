@@ -25,7 +25,6 @@ import net.fabricmc.loader.metadata.EntrypointMetadata;
 // RedirectEntrypoint - not needed
 // getHandlerEntrypoints - not needed
 // Stuff in the entrypoint API renamed
-// Internal loader API - is that needed?
 // Error handling - need to rethrow in cases no one wants to stop the exceptions
 // Default methods in interface - to not need a huge interface
 // The mod initializer class is not always the mod initializer values (initializer can be a method reference)
