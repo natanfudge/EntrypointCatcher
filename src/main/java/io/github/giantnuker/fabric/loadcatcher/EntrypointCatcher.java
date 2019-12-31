@@ -58,18 +58,23 @@ public class EntrypointCatcher {
 	}
 	public static void runEntrypointRedirection(File newRunDir, Object gameInstance) {
 		if (runner != null) {
+			LOGGER.warn("Running Mod Entrypoint Redirector from " + prevModId);
 			runner.run(newRunDir, gameInstance);
 		} else {
+			LOGGER.info("Running Mod Entrypoints Normally");
 			NormalOperations.runNormally(newRunDir, gameInstance);
 		}
+		LOGGER.info("Mod Initialization complete");
 	}
 	public static class NormalOperations {
 		public static void runNormally(File newRunDir, Object gameInstance) {
+
 			runBegins();
 			Map<String, ModContainer> mainToContainer = new HashMap<>();
 			Map<String, ModContainer> clientToContainer = new HashMap<>();
 			runContainerChecks(mainToContainer, clientToContainer);
 			instantiateMods(newRunDir, gameInstance);
+			LOGGER.info("Running Entrypoints");
 			runEntrypoints(mainToContainer, clientToContainer);
 			runEnd();
 		}
@@ -96,6 +101,7 @@ public class EntrypointCatcher {
 					}
 				}
 			}
+			LOGGER.info(String.format("Found %d common mods, %d client mods, and %d unidentified mods", mainToContainer.size(), clientToContainer.size(), containers.size() - mainToContainer.size() - clientToContainer.size()));
 		}
 		public static void runCommonBegins() {
 			for (EntrypointHandler handler : getHandlerEntrypoints()) {
