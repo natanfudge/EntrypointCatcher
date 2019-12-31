@@ -11,6 +11,9 @@ import java.util.function.Consumer;
 import com.google.common.collect.Lists;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.Message;
+import org.apache.logging.log4j.message.MessageFactory;
+import org.apache.logging.log4j.message.SimpleMessage;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
@@ -19,30 +22,61 @@ import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.entrypoint.minecraft.hooks.EntrypointUtils;
 import net.fabricmc.loader.metadata.EntrypointMetadata;
 
-// Notes:
-// Logger initializer - why is this needed?
-// EnvType --> EntrypointKind - they're both on the client
-// RedirectEntrypoint - not needed
-// getHandlerEntrypoints - not needed
-// Stuff in the entrypoint API renamed
-// Error handling - need to rethrow in cases no one wants to stop the exceptions
-// Default methods in interface - to not need a huge interface
-// The mod initializer class is not always the mod initializer values (initializer can be a method reference)
 
-/**
- * INTERNAL CLASS DO NOT USE
- */
 public class EntrypointCatcher {
-    private static final Logger LOGGER = LogManager.getLogger("Entrypoint Catcher");
+    private static final Logger LOGGER = LogManager.getLogger("Entrypoint Catcher", new MessageFactory() {
+        @Override
+        public Message newMessage(Object message) {
+            return new SimpleMessage("[Entrypoint Catcher] " + message);
+        }
 
+        @Override
+        public Message newMessage(String message) {
+            return new SimpleMessage("[Entrypoint Catcher] " + message);
+        }
+
+        @Override
+        public Message newMessage(String message, Object... params) {
+            return new SimpleMessage("[Entrypoint Catcher] " + message);
+        }
+    });
+
+    /**
+     * For internal use only
+     */
     public static void runEntrypointRedirection(File newRunDir, Object gameInstance) {
-        LoaderClientReplacement.run(newRunDir, gameInstance);
+        if (modEntrypointReplacement != null) {
+            LOGGER.warn("Running Mod Entrypoint Redirector from " + replacingMod);
+            modEntrypointReplacement.run(newRunDir, gameInstance);
+        } else {
+            LOGGER.info("Running Mod Entrypoints Normally");
+            LoaderClientReplacement.run(newRunDir, gameInstance);
+        }
+        LOGGER.info("Mod Initialization complete");    }
+
+    private static EntrypointRunnable modEntrypointReplacement = null;
+    private static String replacingMod = null;
+
+    /**
+     * Overwrite the entrypoint handler completely. You should know what you are doing...
+     * @param modId The id of the mod redirecting the handler
+     * @param handler The new handler
+     */
+    public static void redirectEntrypointHandler(String modId, EntrypointRunnable handler) {
+        if (modEntrypointReplacement != null) {
+            LOGGER.error(String.format("%s is re-overwriting the entrypoint handler! It was already overwritten by %s. Expect serious issues!", modId, replacingMod));
+        } else {
+            LOGGER.warn(String.format("%s is overwriting the entrypoint handler! Issues may occur.", modId));
+        }
+        modEntrypointReplacement = handler;
+        replacingMod = modId;
     }
 
     private static class LoaderClientReplacement {
+
         private static final List<EntrypointHandler> entrypointHandlers = FabricLoader.getInstance().getEntrypoints("entry_handler", EntrypointHandler.class);
 
-        private static void run(File newRunDir, Object gameInstance) {
+        public static void run(File newRunDir, Object gameInstance) {
             runBeforeAllCallbacks();
             Map<String, ModContainer> mainToMod = new HashMap<>();
             Map<String, ModContainer> clientToMod = new HashMap<>();
