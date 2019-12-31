@@ -7,7 +7,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.loader.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
-import net.fabricmc.loader.api.metadata.ModMetadata;
 import net.fabricmc.loader.entrypoint.minecraft.hooks.EntrypointUtils;
 import net.fabricmc.loader.metadata.EntrypointMetadata;
 import org.apache.logging.log4j.LogManager;
@@ -39,7 +38,7 @@ public class EntrypointCatcher {
 			return new SimpleMessage("[Entrypoint Catcher] " + message);
 		}
 	});
-	private static EntrypointRunnalbe runner = null;
+	private static EntrypointRunnable runner = null;
 	private static String prevModId = null;
 
 	/**
@@ -47,7 +46,7 @@ public class EntrypointCatcher {
 	 * @param modId The id of the mod redirecting the handler
 	 * @param handler The new handler
 	 */
-	public static void redirectEntrypointHandler(String modId, EntrypointRunnalbe handler) {
+	public static void redirectEntrypointHandler(String modId, EntrypointRunnable handler) {
 		if (runner != null) {
 			LOGGER.error(String.format("%s is re-overwriting the entrypoint handler! It was already overwritten by %s. Expect serious issues!", modId, prevModId));
 		} else {
